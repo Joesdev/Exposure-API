@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateActionsTable extends Migration
+class CreatePagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateActionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('actions', function (Blueprint $table) {
+        Schema::create('pages', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('hierarchy_id');
-            $table->integer('level');
+            $table->integer('action_id');
             $table->string('description',255);
-            $table->integer('page_id');
-            $table->float('fear_average');
+            $table->integer('fear_before');
+            $table->integer('fear_during');
+            $table->integer('satisfaction');
+            $table->timestamps();
         });
     }
 
@@ -30,6 +31,6 @@ class CreateActionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('actions');
+        Schema::dropIfExists('pages');
     }
 }
