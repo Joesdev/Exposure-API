@@ -14,12 +14,12 @@ class CreateActionsTable extends Migration
     public function up()
     {
         Schema::create('actions', function (Blueprint $table) {
-            $table->increments('action_id');
-            $table->integer('user_id');
-            $table->integer('fear_level');
+            $table->increments('id');
+            $table->integer('hierarchy_id');
+            $table->integer('level');
             $table->string('description',255);
-            $table->unique(['user_id', 'description']);
-            $table->timestamps();
+            $table->integer('page_id');
+            $table->float('fear_average');
         });
     }
 
