@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Action extends Model
+class Hierarchy extends Model
 {
-
+    //
 }
