@@ -18,7 +18,6 @@ class CreateActionsTable extends Migration
             $table->integer('hierarchy_id');
             $table->integer('level');
             $table->string('description',255);
-            $table->integer('page_id');
             $table->float('fear_average');
         });
     }

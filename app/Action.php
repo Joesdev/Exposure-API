@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Action extends Model
 {
+    public $timestamps = false;
+
     protected $fillable = [
-        'hierarchy_id', 'level', 'description', 'page_id', 'fear_average'
+        'hierarchy_id', 'level', 'description', 'fear_average'
     ];
 
 }
