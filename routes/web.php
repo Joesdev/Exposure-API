@@ -25,6 +25,6 @@ Route::post('/home/action', 'HomeController@saveAction');
 
 
 Route::get('/test/user/hierarchy', function(){
-   $user = \App\User::find(1)->hierarchies;
+   $user = \App\User::find(7)->hierarchies;
    dd($user);
 });

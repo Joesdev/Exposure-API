@@ -10,6 +10,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+
+    protected $primaryKey = 'id';
     /**
      * The attributes that are mass assignable.
      *
@@ -30,6 +32,6 @@ class User extends Authenticatable
 
     public function hierarchies()
     {
-        return $this->hasMany('App\Hierarchy', 'id', 'hierarchy_id');
+        return $this->hasMany('App\Hierarchy');
     }
 }
