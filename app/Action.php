@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Action extends Model
 {
     protected $primaryKey = 'id';
-    protected $timestamps = false;
+    public $timestamps = false;
 
     protected $fillable = [
         'hierarchy_id', 'level', 'description', 'fear_average'
