@@ -22,9 +22,3 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //Actions
 Route::post('/home/action', 'HomeController@saveAction');
-
-
-Route::get('/test/action/page', function(){
-   $pages = \App\Action::find(85)->pages;
-   return $pages;
-});
