@@ -14,7 +14,7 @@
 //Auth
 Auth::routes();
 
-//Routes Which Return Views
+//General Navigation
 Route::get('/', function () {
     return view('welcome');
 });
