@@ -24,7 +24,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/home/action', 'HomeController@saveAction');
 
 
-Route::get('/test/hierarchy/action', function(){
-   $actions = \App\Hierarchy::find(2)->actions;
-   return $actions;
+Route::get('/test/action/page', function(){
+   $pages = \App\Action::find(85)->pages;
+   return $pages;
 });

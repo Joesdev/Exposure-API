@@ -12,4 +12,8 @@ class Action extends Model
         'hierarchy_id', 'level', 'description', 'fear_average'
     ];
 
+    public function pages()
+    {
+        return $this->hasMany('App\Page');
+    }
 }
