@@ -11,12 +11,20 @@
 |
 */
 
+//Auth
+Auth::routes();
+
+//Routes Which Return Views
 Route::get('/', function () {
     return view('welcome');
 });
-
-Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
+//Actions
 Route::post('/home/action', 'HomeController@saveAction');
+
+
+Route::get('/test/user/hierarchy', function(){
+   $user = \App\User::find(1)->hierarchies;
+   dd($user);
+});

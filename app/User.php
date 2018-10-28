@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use App\Hierarchy;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -28,8 +30,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function actions()
+    public function hierarchies()
     {
-        return $this->hasMany('App\Action');
+        return $this->hasMany('Hierarchy', 'id', 'hierarchy_id');
     }
 }

@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Hierarchy extends Model
 {
     protected $fillable = [
-        'goal'
+        'user_id', 'goal'
     ];
 }
