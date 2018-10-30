@@ -11,12 +11,14 @@
 |
 */
 
+//Auth
+Auth::routes();
+
+//General Navigation
 Route::get('/', function () {
     return view('welcome');
 });
-
-Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
+//Actions
 Route::post('/home/action', 'HomeController@saveAction');
