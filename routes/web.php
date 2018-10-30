@@ -20,5 +20,5 @@ Route::get('/', function () {
 });
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Actions
-Route::post('/home/action', 'HomeController@saveAction');
+//Hierarchy
+Route::post('/hierarchy', 'HierarchyController@store')->name('store.hierarchy');
