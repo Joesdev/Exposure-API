@@ -25,19 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $actions = Auth::user()->actions()->get();
-        return view('home')->with(compact($actions, 'actions'));
-    }
-
-
-    public function saveAction(Request $request)
-    {
-        $user_id = Auth::user()->id;
-        $action = new Action();
-        $action->user_id = $user_id;
-        $action->fear_level = $request->fear_level;
-        $action->description = $request->action;
-        $action->save();
-        return redirect('home');
+        return view('home');
     }
 }
