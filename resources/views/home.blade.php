@@ -15,7 +15,7 @@
         </table>
     </div>
     <div class="container">
-        <form method="post" action="{{route('store.hierarchy')}}">
+        <form method="post" action="{{route('store.actions', Auth::user()->id)}}">
             @csrf
             <div class="form-group row">
                 <div class="col-md-10">
