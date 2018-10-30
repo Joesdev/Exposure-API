@@ -15,19 +15,20 @@ class ActionController extends Controller
 
     }
 
-    public function storeMany(Request $request, $id)
+    public function storeMany(Request $request, $hierearchy_id)
     {
+        $hierarchy = Hierarchy::where('id', $hierearchy_id)->first();
         $data = array(
-            array('hierarchy_id' => $id, 1, $request->description_one),
-            array('hierarchy_id' => $id, 2, $request->description_two),
-            array('hierarchy_id' => $id, 3, $request->description_three),
-            array('hierarchy_id' => $id, 4, $request->description_four),
-            array('hierarchy_id' => $id, 5, $request->description_five),
-            array('hierarchy_id' => $id, 6, $request->description_six),
-            array('hierarchy_id' => $id, 7, $request->description_seven),
-            array('hierarchy_id' => $id, 8, $request->description_eight),
-            array('hierarchy_id' => $id, 9, $request->description_nice),
-            array('hierarchy_id' => $id, 10, $request->description_ten),
+            array('hierarchy_id' => $hierarchy->id, 'level' => 1, 'description' => $request->description_one),
+            array('hierarchy_id' => $hierarchy->id, 'level' => 2, 'description' => $request->description_two),
+            array('hierarchy_id' => $hierarchy->id, 'level' => 3, 'description' => $request->description_three),
+            array('hierarchy_id' => $hierarchy->id, 'level' => 4, 'description' => $request->description_four),
+            array('hierarchy_id' => $hierarchy->id, 'level' => 5, 'description' => $request->description_five),
+            array('hierarchy_id' => $hierarchy->id, 'level' => 6, 'description' => $request->description_six),
+            array('hierarchy_id' => $hierarchy->id, 'level' => 7, 'description' => $request->description_seven),
+            array('hierarchy_id' => $hierarchy->id, 'level' => 8, 'description' => $request->description_eight),
+            array('hierarchy_id' => $hierarchy->id, 'level' => 9, 'description' => $request->description_nine),
+            array('hierarchy_id' => $hierarchy->id, 'level' => 10, 'description' => $request->description_ten),
         );
         Action::insert($data);
     }

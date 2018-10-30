@@ -24,4 +24,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/hierarchy', 'HierarchyController@store')->name('store.hierarchy');
 
 //Hierarchy/Action
-Route::post('/hierarchy/{id}/actions', 'ActionController@storeMany')->name('store.actions');
+Route::post('/actions/{hierarchy_id}', 'ActionController@storeMany')->name('store.actions');
