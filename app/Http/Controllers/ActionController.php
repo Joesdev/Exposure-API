@@ -32,4 +32,9 @@ class ActionController extends Controller
         );
         Action::insert($data);
     }
+
+    public function store()
+    {
+
+    }
 }
