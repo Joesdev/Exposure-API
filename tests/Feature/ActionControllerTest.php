@@ -56,7 +56,6 @@ class ActionControllerTest extends TestCase
             'level' => $level,
             'description' => $description
         ]);
-        //Then I expect to see the matching data in the database
     }
 
     public function generateActionDescriptions($num_of_descriptions)
