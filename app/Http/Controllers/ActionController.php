@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Action;
-use App\Hierarchy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,12 +29,14 @@ class ActionController extends Controller
             array('hierarchy_id' => $hierarchy_id, 'level' => 10, 'description' => $request->description_10),
         );
         Action::insert($data);
-
-
     }
 
-    public function store()
+    public function store(Request $request, $hierarchy_id)
     {
-
+        $action = new Action();
+        $action->hierarchy_id = $hierarchy_id;
+        $action->level = $request->level;
+        $action->description = $request->description;
+        $action->save();
     }
 }
