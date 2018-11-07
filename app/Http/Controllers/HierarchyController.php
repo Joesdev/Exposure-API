@@ -12,16 +12,16 @@ class HierarchyController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
     }
 
-    public function store(Request $request)
+    /*public function store(Request $request)
     {
+        dd($request->user);
         $hierarchy = new Hierarchy();
-        $hierarchy->user_id = Auth::user()->id;;
+        $hierarchy->user_id = Auth::user()->id;
         $hierarchy->goal = $request->goal;
         $hierarchy->save();
-    }
+    }*/
 
     public function index()
     {
