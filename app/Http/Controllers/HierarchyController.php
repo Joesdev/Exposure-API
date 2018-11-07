@@ -32,7 +32,6 @@ class HierarchyController extends Controller
 
     public function show($id)
     {
-        $user = Auth::user();
         $hierarchy = Hierarchy::findOrFail($id);
         return $hierarchy;
     }
