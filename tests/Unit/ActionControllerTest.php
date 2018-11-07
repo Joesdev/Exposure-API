@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
 use App\Action;
 use App\Hierarchy;
@@ -11,11 +11,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ActionControllerTest extends TestCase
 {
-    use WithFaker;
     use RefreshDatabase;
+    use WithFaker;
 
     protected $user;
-    protected $user_id;
 
     public function setUp()
     {
