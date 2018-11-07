@@ -18,10 +18,5 @@ Auth::routes();
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('/home', 'HomeController@index')->name('home');
-
-//Hierarchy
-Route::post('/hierarchy', 'HierarchyController@store')->name('store.hierarchy');
-
-//Hierarchy/Action
-Route::post('/actions/{hierarchy_id}', 'ActionController@storeMany')->name('store.actions');

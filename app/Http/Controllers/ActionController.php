@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Action;
-use App\Hierarchy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,21 +14,29 @@ class ActionController extends Controller
 
     }
 
-    public function storeMany(Request $request, $hierearchy_id)
+    public function storeTen(Request $request, $hierarchy_id)
     {
-        $hierarchy = Hierarchy::where('id', $hierearchy_id)->first();
         $data = array(
-            array('hierarchy_id' => $hierarchy->id, 'level' => 1, 'description' => $request->description_one),
-            array('hierarchy_id' => $hierarchy->id, 'level' => 2, 'description' => $request->description_two),
-            array('hierarchy_id' => $hierarchy->id, 'level' => 3, 'description' => $request->description_three),
-            array('hierarchy_id' => $hierarchy->id, 'level' => 4, 'description' => $request->description_four),
-            array('hierarchy_id' => $hierarchy->id, 'level' => 5, 'description' => $request->description_five),
-            array('hierarchy_id' => $hierarchy->id, 'level' => 6, 'description' => $request->description_six),
-            array('hierarchy_id' => $hierarchy->id, 'level' => 7, 'description' => $request->description_seven),
-            array('hierarchy_id' => $hierarchy->id, 'level' => 8, 'description' => $request->description_eight),
-            array('hierarchy_id' => $hierarchy->id, 'level' => 9, 'description' => $request->description_nine),
-            array('hierarchy_id' => $hierarchy->id, 'level' => 10, 'description' => $request->description_ten),
+            array('hierarchy_id' => $hierarchy_id, 'level' => 1, 'description' => $request->description_1),
+            array('hierarchy_id' => $hierarchy_id, 'level' => 2, 'description' => $request->description_2),
+            array('hierarchy_id' => $hierarchy_id, 'level' => 3, 'description' => $request->description_3),
+            array('hierarchy_id' => $hierarchy_id, 'level' => 4, 'description' => $request->description_4),
+            array('hierarchy_id' => $hierarchy_id, 'level' => 5, 'description' => $request->description_5),
+            array('hierarchy_id' => $hierarchy_id, 'level' => 6, 'description' => $request->description_6),
+            array('hierarchy_id' => $hierarchy_id, 'level' => 7, 'description' => $request->description_7),
+            array('hierarchy_id' => $hierarchy_id, 'level' => 8, 'description' => $request->description_8),
+            array('hierarchy_id' => $hierarchy_id, 'level' => 9, 'description' => $request->description_9),
+            array('hierarchy_id' => $hierarchy_id, 'level' => 10, 'description' => $request->description_10),
         );
         Action::insert($data);
+    }
+
+    public function store(Request $request, $hierarchy_id)
+    {
+        $action = new Action();
+        $action->hierarchy_id = $hierarchy_id;
+        $action->level = $request->level;
+        $action->description = $request->description;
+        $action->save();
     }
 }
