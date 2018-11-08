@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
 use App\Action;
 use App\Hierarchy;
@@ -11,17 +11,17 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ActionControllerTest extends TestCase
 {
-    use WithFaker;
     use RefreshDatabase;
+    use WithFaker;
 
     protected $user;
-    protected $user_id;
+    protected $num_hierarchies = 1;
 
     public function setUp()
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        factory(Hierarchy::class, 1)->create(['user_id' => $this->user->id]);
+        factory(Hierarchy::class, $this->num_hierarchies)->create(['user_id' => $this->user->id]);
     }
 
     public function test_storeTen_stores_ten_rows_in_actions_table()
