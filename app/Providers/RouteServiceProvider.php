@@ -30,7 +30,7 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
 
         Route::bind('hierarchy',function($value){
-            return Hierarchy::where(['user_id' => Auth::id(), 'id' =>$value ])->first();
+            return Hierarchy::where(['id' =>$value ,'user_id' => Auth::id() ])->first();
         });
     }
 
