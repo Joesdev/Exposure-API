@@ -15,19 +15,6 @@
         </table>
     </div>
     <div class="container">
-        {{--Hiearchy_id is set to  placeholder number for now, this firm is strictly for testing--}}
-        <form method="post" action="{{route('store.hierarchy')}}">
-            @csrf
-            <div class="form-group row">
-                <div class="col-md-10">
-                    <label for="action">Action</label>
-                    <input type="text" class="form-control" name="goal" id="goal" maxlength="75">
-                </div>
-            </div>
-            <div class=""form-control>
-                <button type="btn" id="submit" class="btn btn-primary">Done</button>
-            </div>
-        </form>
     </div>
 </div>
 @endsection

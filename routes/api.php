@@ -17,11 +17,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Hierarchy
-Route::post('/hierarchy', 'HierarchyController@store')->name('store.hierarchy');
-Route::get('/hierarchy', 'HierarchyController@index')->name('index.hierarchy');
-Route::get('/hierarchy/{id}', 'HierarchyController@show')->name('show.hierarchy');
-
 //Action
 Route::post('/hierarchy/{id}/actions', 'ActionController@storeTen')->name('store.actions');
 Route::post('/hierarchy/{id}/action', 'ActionController@store')->name('store.action');

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Hierarchy;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -26,6 +28,10 @@ class RouteServiceProvider extends ServiceProvider
         //
 
         parent::boot();
+
+        Route::bind('hierarchy',function($value){
+            return Hierarchy::where(['user_id' => Auth::id(), 'id' =>$value ])->first();
+        });
     }
 
     /**
