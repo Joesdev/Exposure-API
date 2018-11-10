@@ -25,13 +25,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
-
-        Route::bind('hierarchy',function($value){
-            return Hierarchy::where(['id' =>$value ,'user_id' => Auth::id() ])->first();
-        });
     }
 
     /**

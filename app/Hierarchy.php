@@ -16,4 +16,9 @@ class Hierarchy extends Model
     {
         return $this->hasMany('App\Action');
     }
+
+    public function addAction($input_fields)
+    {
+        $this->actions()->create($input_fields);
+    }
 }
