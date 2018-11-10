@@ -22,7 +22,7 @@ Route::get('/', function () {
 Route::get('/home', 'HomeController@index')->name('home');
 
 //Hierarchy
-Route::get('/hierarchy/create', 'HierarchyController@create')->name('hierarchy.create');
 Route::post('/hierarchy', 'HierarchyController@store')->name('hierarchy.store');
 Route::get('/hierarchy', 'HierarchyController@index')->name('hierarchy.index');
 Route::get('/hierarchy/{hierarchy}', 'HierarchyController@show')->name('hierarchy.show');
+Route::get('/hierarchy/create', 'HierarchyController@create')->name('hierarchy.create');
