@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Hierarchy extends Model
 {
@@ -17,8 +18,19 @@ class Hierarchy extends Model
         return $this->hasMany('App\Action');
     }
 
-    public function addAction($input_fields)
+    public function addAction($action)
     {
-        $this->actions()->create($input_fields);
+        if($action instanceof Action){
+            return $this->actions()->save($action);
+        }else if($action instanceof Collection){
+            return $this->actions()->saveMany($action);
+        } else{ //Assoc Array
+            $this->actions()->create($action);
+        }
+    }
+
+    public function countActions()
+    {
+        return $this->actions()->count();
     }
 }
