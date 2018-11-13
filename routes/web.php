@@ -24,6 +24,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Hierarchy
 Route::post('/hierarchy', 'HierarchyController@store')->name('hierarchy.store');
 Route::patch('/hierarchy/{hierarchy}', 'HierarchyController@update')->name('hierarchy.update');
+Route::get('/hierarchy/{hierarchy}/edit', 'HierarchyController@edit')->name('hierarchy.edit');
 Route::get('/hierarchy', 'HierarchyController@index')->name('hierarchy.index');
 Route::get('/hierarchy/{hierarchy}', 'HierarchyController@show')->name('hierarchy.show');
 Route::get('/hierarchy/create', 'HierarchyController@create')->name('hierarchy.create');

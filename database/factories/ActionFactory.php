@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Action::class, function (Faker $faker, $params) {
+$factory->define(App\Action::class, function (Faker $faker) {
     return [
         'hierarchy_id' => $faker->numberBetween(1, 50),
         'level' => $faker->unique()->numberBetween(1,10),
