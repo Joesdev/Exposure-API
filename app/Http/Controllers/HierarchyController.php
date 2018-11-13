@@ -24,7 +24,7 @@ class HierarchyController extends Controller
 
     public function show(Hierarchy $hierarchy)
     {
-        return $hierarchy;
+        return ($hierarchy->user_id == Auth::id()) ? $hierarchy : abort(404);
     }
 
     public function create()

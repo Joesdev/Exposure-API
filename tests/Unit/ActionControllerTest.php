@@ -24,23 +24,6 @@ class ActionControllerTest extends TestCase
         factory(Hierarchy::class, $this->num_hierarchies)->create(['user_id' => $this->user->id]);
     }
 
-    public function test_storeTen_stores_ten_rows_in_actions_table()
-    {
-        $hierarchy_id = $count = 1;
-        $action_descriptions = $this->generateActionDescriptions(10);
-        $response = $this->actingAs($this->user)
-                         ->json('POST', "/api/hierarchy/$hierarchy_id/actions", $action_descriptions);
-        $this->assertEquals(200, $response->getStatusCode());
-        foreach($action_descriptions as $description) {
-            $this->assertDatabaseHas('actions',[
-                'hierarchy_id' => $hierarchy_id,
-                'level' => $count,
-                'description' => $description
-            ]);
-            $count++;
-        }
-    }
-
     public function test_store_stores_a_single_row_in_actions_table(){
         $hierarchy_id = 1;
         $level = random_int(1,10);
