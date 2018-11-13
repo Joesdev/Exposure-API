@@ -47,5 +47,16 @@ class HierarchyTest extends TestCase
         $this->assertEquals(4, $hierarchy->countActions());
     }
 
+    public function test_addAction_throws_exception_when_count_exceeds_ten()
+    {
+        $hierarchy = factory(Hierarchy::class)->create();
+        $actions = factory(Action::class,10)->create();
+        $hierarchy->addAction($actions);
+        
+        $overLimitAction = factory(Action::class,1);
+        $this->expectException('Exception');
+        $hierarchy->addAction($overLimitAction);
+    }
+
 
 }

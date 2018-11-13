@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Mockery\Exception;
 
 class Hierarchy extends Model
 {
@@ -20,17 +21,26 @@ class Hierarchy extends Model
 
     public function addAction($action)
     {
+        //Guard Against going over limit
+        $this->guardLimitTen();
         if($action instanceof Action){
             return $this->actions()->save($action);
         }else if($action instanceof Collection){
             return $this->actions()->saveMany($action);
         } else{ //Assoc Array
-            $this->actions()->create($action);
+            return $this->actions()->create($action);
         }
     }
 
     public function countActions()
     {
         return $this->actions()->count();
+    }
+
+    public function guardLimitTen()
+    {
+        if($this->countActions() == 10){
+            throw new Exception();
+        }
     }
 }
