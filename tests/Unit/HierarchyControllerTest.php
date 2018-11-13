@@ -53,6 +53,29 @@ class HierarchyControllerTest extends TestCase
         $response->assertStatus(404);
     }
 
+    public function test_patch_updates_a_hierarchy()
+    {
+        $hierarchy = $this->hierarchies[0][0];
+        $goal = 'Updated!';
+        $response = $this->actingAs($this->users->first())
+                         ->json('PATCH', "/hierarchy/$hierarchy->id", ['goal' => $goal]);
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('hierarchies', [
+            'id'      => $hierarchy->id,
+            'user_id' => $hierarchy->user_id,
+            'goal'    => $goal
+        ]);
+    }
+
+    public function test_update_cannot_update_another_users_hierarchy()
+    {
+        $notThisUsershHierarchy = $this->hierarchies[1][0];
+        $goal = 'Updated!';
+        $response = $this->actingAs($this->users->first())
+            ->json('PATCH', "/hierarchy/$notThisUsershHierarchy->id", ['goal' => $goal]);
+        $response->assertStatus(404);
+    }
+
     public function getUserHierarchyIdsAsArray($user_id)
     {
         $id_array = User::find($user_id)->hierarchies()->get()->map(function($hierarchy) {
