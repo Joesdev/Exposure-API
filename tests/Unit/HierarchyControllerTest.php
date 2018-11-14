@@ -103,7 +103,7 @@ class HierarchyControllerTest extends TestCase
         $actions = factory(Action::class,10)->create();
         $hierarchy->addAction($actions);
         $pages =factory(Page::class,5)->create(['action_id' => $actions->first()->id]);
-        $actions->addPages($pages);
+        $actions->first()->addPages($pages);
 
         $response = $this->actingAs($user)
                          ->json('DELETE', "/hierarchy/$hierarchy->id");
