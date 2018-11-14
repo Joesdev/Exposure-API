@@ -76,6 +76,24 @@ class HierarchyControllerTest extends TestCase
         $response->assertStatus(404);
     }
 
+    public function test_destroy_removes_a_hierarchy_from_db()
+    {
+        $userHierarchyStartCount = $this->users->first()->countHierarchies();
+        $hierarchy = $this->hierarchies[0][0];
+        $response = $this->actingAs($this->users->first())
+                         ->json('DELETE', "/hierarchy/$hierarchy->id");
+        $response->assertStatus(200);
+        $this->assertEquals($userHierarchyStartCount - 1, $this->users->first()->countHierarchies());
+    }
+
+    public function test_destroy_returns_404_when_deleting_another_users_hierarchy()
+    {
+        $hierarchy = $this->hierarchies[1][0];
+        $response = $this->actingAs($this->users->first())
+            ->json('DELETE', "/hierarchy/$hierarchy->id");
+        $response->assertStatus(404);
+    }
+
     public function getUserHierarchyIdsAsArray($user_id)
     {
         $id_array = User::find($user_id)->hierarchies()->get()->map(function($hierarchy) {
