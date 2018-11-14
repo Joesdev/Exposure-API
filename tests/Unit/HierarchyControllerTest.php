@@ -2,8 +2,10 @@
 
 namespace Tests\Unit;
 
+use App\Action;
 use App\User;
 use App\Hierarchy;
+use App\Page;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -92,6 +94,22 @@ class HierarchyControllerTest extends TestCase
         $response = $this->actingAs($this->users->first())
             ->json('DELETE', "/hierarchy/$hierarchy->id");
         $response->assertStatus(404);
+    }
+
+    public function test_destroy_deletes_all_related_table_rows()
+    {
+        $user = $this->users->first();
+        $hierarchy = $this->hierarchies[0][0];
+        $actions = factory(Action::class,10)->create();
+        $hierarchy->addAction($actions);
+        $pages =factory(Page::class,5)->create(['action_id' => $actions->first()->id]);
+        $actions->addPages($pages);
+
+        $response = $this->actingAs($user)
+                         ->json('DELETE', "/hierarchy/$hierarchy->id");
+        $response->assertStatus(200);
+        $this->assertEquals(0, Action::all()->count());
+        $this->assertEquals(0, Pages::all()->count());
     }
 
     public function getUserHierarchyIdsAsArray($user_id)

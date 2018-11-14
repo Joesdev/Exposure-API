@@ -17,4 +17,15 @@ class Action extends Model
     {
         return $this->hasMany('App\Page');
     }
+
+    public function addPages($pages)
+    {
+        if($pages instanceof Page){
+            return $this->pages()->save($pages);
+        }else if ($pages instanceof Collection){
+            return $this->pages()->saveMany($pages);
+        } else{ //Assoc Array
+        return $this->pages()->create($pages);
+        }
+    }
 }
