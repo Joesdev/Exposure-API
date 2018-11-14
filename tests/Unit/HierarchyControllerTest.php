@@ -7,7 +7,6 @@ use App\User;
 use App\Hierarchy;
 use App\Page;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class HierarchyControllerTest extends TestCase
@@ -108,8 +107,9 @@ class HierarchyControllerTest extends TestCase
         $response = $this->actingAs($user)
                          ->json('DELETE', "/hierarchy/$hierarchy->id");
         $response->assertStatus(200);
+        $this->assertEquals(3, Hierarchy::all()->count());
         $this->assertEquals(0, Action::all()->count());
-        $this->assertEquals(0, Pages::all()->count());
+        $this->assertEquals(0, Page::all()->count());
     }
 
     public function getUserHierarchyIdsAsArray($user_id)

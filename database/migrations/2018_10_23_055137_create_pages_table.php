@@ -15,12 +15,17 @@ class CreatePagesTable extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('action_id');
+            $table->integer('action_id')->unsigned();
             $table->string('description',255);
             $table->integer('fear_before');
             $table->integer('fear_during');
             $table->integer('satisfaction');
             $table->timestamps();
+        });
+
+        Schema::table('pages', function (Blueprint $table){
+            $table->foreign('action_id')->references('id')->on('actions')
+                  ->onDelete('cascade');
         });
     }
 
