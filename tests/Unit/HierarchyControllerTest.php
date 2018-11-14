@@ -53,7 +53,7 @@ class HierarchyControllerTest extends TestCase
         $response->assertStatus(404);
     }
 
-    public function test_patch_updates_a_hierarchy()
+    public function test_update_modifies_an_existing_hierarchy()
     {
         $hierarchy = $this->hierarchies[0][0];
         $goal = 'Updated!';

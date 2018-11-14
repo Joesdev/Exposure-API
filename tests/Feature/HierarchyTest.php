@@ -53,6 +53,7 @@ class HierarchyTest extends TestCase
         $actions = factory(Action::class,10)->create();
         $hierarchy->addAction($actions);
 
+        $this->assertEquals(10, $hierarchy->countActions());
         $this->expectException('Exception');
         $hierarchy->addAction([
             'level' => 11,
