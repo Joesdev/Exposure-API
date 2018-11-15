@@ -99,13 +99,11 @@ class HierarchyControllerTest extends TestCase
     {
         $user = $this->users->first();
         $hierarchy = $this->hierarchies[0][0];
-        $actions = factory(Action::class,10)->create();
-        $hierarchy->addAction($actions);
-        $pages =factory(Page::class,5)->create(['action_id' => $actions->first()->id]);
-        $actions->first()->addPages($pages);
-
+        $actions = factory(Action::class,10)->create(['hierarchy_id' => $hierarchy->id]);
+        factory(Page::class,5)->create(['action_id' => $actions->first()->id]);
         $response = $this->actingAs($user)
-                         ->json('DELETE', "/hierarchy/$hierarchy->id");
+                        ->json('DELETE', "/hierarchy/$hierarchy->id");
+        //Hierarchy Deleted so all related rows in actions and pages should also be deleted
         $response->assertStatus(200);
         $this->assertEquals(3, Hierarchy::all()->count());
         $this->assertEquals(0, Action::all()->count());
