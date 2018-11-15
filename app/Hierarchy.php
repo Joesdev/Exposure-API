@@ -23,13 +23,14 @@ class Hierarchy extends Model
     {
         //Guard Against going over limit
         $this->guardLimitTen();
-        if($action instanceof Action){
+        /*if($action instanceof Action){
             return $this->actions()->save($action);
         }else if($action instanceof Collection){
             return $this->actions()->saveMany($action);
         } else{ //Assoc Array
             return $this->actions()->create($action);
-        }
+        }*/
+        return $this->actions()->create($action);
     }
 
     public function countActions()
