@@ -34,4 +34,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Hierarchy');
     }
+    public function countHierarchies()
+    {
+        return $this->hierarchies()->count();
+    }
 }

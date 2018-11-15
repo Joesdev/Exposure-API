@@ -15,6 +15,28 @@
         </table>
     </div>
     <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Goal</th>
+                <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th scope="row">{{$hierarchy->id}}</th>
+            <td scope="row">{{$hierarchy->goal}}</td>
+            <td scope="row">
+                <form method="post" id="deleteForm" action="{{route('hierarchy.delete', $hierarchy->id)}}">
+                    @csrf
+                    {{method_field('DELETE')}}
+                    <button type="btn" form="deleteForm" id="delete" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+            </tbody>
+        </table>
+    </div>
+    <div class="container">
         <form method="post" action="{{route('hierarchy.update', $hierarchy->id)}}">
             {{method_field('PATCH')}}
             @csrf

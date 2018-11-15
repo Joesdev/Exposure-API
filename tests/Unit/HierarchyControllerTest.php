@@ -2,10 +2,11 @@
 
 namespace Tests\Unit;
 
+use App\Action;
 use App\User;
 use App\Hierarchy;
+use App\Page;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class HierarchyControllerTest extends TestCase
@@ -74,6 +75,39 @@ class HierarchyControllerTest extends TestCase
         $response = $this->actingAs($this->users->first())
             ->json('PATCH', "/hierarchy/$notThisUsershHierarchy->id", ['goal' => $goal]);
         $response->assertStatus(404);
+    }
+
+    public function test_destroy_removes_a_hierarchy_from_db()
+    {
+        $userHierarchyStartCount = $this->users->first()->countHierarchies();
+        $hierarchy = $this->hierarchies[0][0];
+        $response = $this->actingAs($this->users->first())
+                         ->json('DELETE', "/hierarchy/$hierarchy->id");
+        $response->assertStatus(200);
+        $this->assertEquals($userHierarchyStartCount - 1, $this->users->first()->countHierarchies());
+    }
+
+    public function test_destroy_returns_404_when_deleting_another_users_hierarchy()
+    {
+        $hierarchy = $this->hierarchies[1][0];
+        $response = $this->actingAs($this->users->first())
+            ->json('DELETE', "/hierarchy/$hierarchy->id");
+        $response->assertStatus(404);
+    }
+
+    public function test_destroy_deletes_all_related_table_rows()
+    {
+        $user = $this->users->first();
+        $hierarchy = $this->hierarchies[0][0];
+        $actions = factory(Action::class,10)->create(['hierarchy_id' => $hierarchy->id]);
+        factory(Page::class,5)->create(['action_id' => $actions->first()->id]);
+        $response = $this->actingAs($user)
+                        ->json('DELETE', "/hierarchy/$hierarchy->id");
+        //Hierarchy Deleted so all related rows in actions and pages should also be deleted
+        $response->assertStatus(200);
+        $this->assertEquals(3, Hierarchy::all()->count());
+        $this->assertEquals(0, Action::all()->count());
+        $this->assertEquals(0, Page::all()->count());
     }
 
     public function getUserHierarchyIdsAsArray($user_id)

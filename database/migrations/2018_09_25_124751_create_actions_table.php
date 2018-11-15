@@ -15,10 +15,15 @@ class CreateActionsTable extends Migration
     {
         Schema::create('actions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('hierarchy_id');
+            $table->integer('hierarchy_id')->unsigned();
             $table->integer('level');
             $table->string('description',255);
             $table->float('fear_average')->default(0);
+        });
+
+        Schema::table('actions', function (Blueprint $table){
+           $table->foreign('hierarchy_id')->references('id')->on('hierarchies')
+                 ->onDelete('cascade');
         });
     }
 
