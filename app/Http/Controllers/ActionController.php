@@ -7,6 +7,12 @@ use App\Hierarchy;
 class ActionController extends Controller
 {
 
+    public function index(Hierarchy $hierarchy)
+    {
+        $actions = $hierarchy->actions()->get();
+        return $actions;
+    }
+
     public function store(Hierarchy $hierarchy)
     {
         $hierarchy->addAction(request(['level', 'description']));
@@ -17,5 +23,8 @@ class ActionController extends Controller
         return view('test_forms.action_create');
     }
 
+    public function show()
+    {
 
+    }
 }

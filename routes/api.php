@@ -19,5 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Action
 Route::post('/hierarchy/{hierarchy}/action', 'ActionController@store')->name('action.store');
+/*Route::get('/hierarchy/{hierarchy}/action/create', 'ActionController@create');*/
 
-Route::get('/hierarchy/{hierarchy}/action/create', 'ActionController@create');
+Route::get('/hierarchy/{hierarchy}/action', 'ActionController@index')->name('action.index');
+Route::get('/action/{action}', 'ActionController@show')->name('action.show');
+Route::patch('/action/{action}');
+Route::delete('/action/{action}');

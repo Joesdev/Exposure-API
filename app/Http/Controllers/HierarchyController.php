@@ -8,6 +8,12 @@ use App\Hierarchy;
 class HierarchyController extends Controller
 {
 
+    public function index()
+    {
+        $hierarchies = Hierarchy::where('user_id', Auth::id())->get();
+        return $hierarchies;
+    }
+
     public function store()
     {
         Hierarchy::create([
@@ -16,27 +22,21 @@ class HierarchyController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        return view('test_forms.hierarchy_create');
+    }
+
     public function update(Hierarchy $hierarchy)
     {
         $this->verifyUserOwnsAHierarchy($hierarchy);
         $hierarchy->update(request()->all());
     }
 
-    public function index()
-    {
-        $hierarchies = Hierarchy::where('user_id', Auth::id())->get();
-        return $hierarchies;
-    }
-
     public function show(Hierarchy $hierarchy)
     {
         $this->verifyUserOwnsAHierarchy($hierarchy);
         return $hierarchy;
-    }
-
-    public function create()
-    {
-        return view('test_forms.hierarchy_create');
     }
 
     public function edit(Hierarchy $hierarchy)

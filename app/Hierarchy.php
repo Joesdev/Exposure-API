@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Mockery\Exception;
 
 class Hierarchy extends Model
