@@ -44,6 +44,12 @@ class HierarchyController extends Controller
         return view('test_forms.hierarchy_edit', compact('hierarchy'));
     }
 
+    public function destroy(Hierarchy $hierarchy)
+    {
+        $this->verifyUserOwnsAHierarchy($hierarchy);
+        $hierarchy->delete();
+    }
+
     public function verifyUserOwnsAHierarchy(Hierarchy $hierarchy)
     {
         ($hierarchy->user_id != Auth::id()) ? abort(404) : true;

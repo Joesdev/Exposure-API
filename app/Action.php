@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Action extends Model
 {
@@ -16,5 +17,16 @@ class Action extends Model
     public function pages()
     {
         return $this->hasMany('App\Page');
+    }
+
+    public function addPages($pages)
+    {
+        if($pages instanceof Page){
+            return $this->pages()->save($pages);
+        }else if ($pages instanceof Collection){
+            return $this->pages()->saveMany($pages);
+        } else{ //Assoc Array
+            return $this->pages()->create($pages);
+        }
     }
 }
