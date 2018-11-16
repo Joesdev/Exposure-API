@@ -42,7 +42,7 @@ class ActionControllerTest extends TestCase
         ]);
     }
 
-    /*public function test_show_retrieves_a_single_action()
+    public function test_show_retrieves_a_single_action()
     {
         $hierarchy_id = $this->hierarchy->first()->id;
         $actions = factory(Action::class,10)->create(['hierarchy_id' => $hierarchy_id]);
@@ -51,9 +51,9 @@ class ActionControllerTest extends TestCase
         $response->assertJsonStructure([
             'hierarchy_id', 'level', 'description', 'fear_average'
         ]);
-        $this->assertEquals($hierarchy_id, $response->getOriginalContent()->id);
-        $this->assertEquals($actions->first()->id, $response->getOriginalContent()->action_id);
-    }*/
+        $this->assertEquals($hierarchy_id, $response->getOriginalContent()->hierarchy_id);
+        $this->assertEquals($actions->first()->id, $response->getOriginalContent()->id);
+    }
 
     public function generateActionDescriptions($num_of_descriptions)
     {
