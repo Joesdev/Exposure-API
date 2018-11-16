@@ -35,7 +35,6 @@ class HierarchyController extends Controller
 
     public function show(Hierarchy $hierarchy)
     {
-        $this->verifyUserOwnsAHierarchy($hierarchy);
         return $hierarchy;
     }
 
@@ -48,6 +47,12 @@ class HierarchyController extends Controller
     {
         $this->verifyUserOwnsAHierarchy($hierarchy);
         $hierarchy->delete();
+    }
+
+    public function actions(Hierarchy $hierarchy)
+    {
+        $actions = $hierarchy->actions()->get();
+        return $actions;
     }
 
     public function verifyUserOwnsAHierarchy(Hierarchy $hierarchy)

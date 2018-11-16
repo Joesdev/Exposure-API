@@ -38,20 +38,12 @@ class HierarchyControllerTest extends TestCase
     {
         $users_related_hierarchy_id = $this->hierarchies[0][0]->id;
         $response = $this->actingAs($this->users->first())
-                        ->json('GET',"/hierarchy/$users_related_hierarchy_id" );
+                        ->json('GET',"api/hierarchy/$users_related_hierarchy_id" );
         $this->assertEquals(200, $response->getStatusCode());
         $response->assertJsonStructure([
             'user_id',
             'goal'
         ]);
-    }
-
-    public function test_show_returns_404_error_when_passed_an_hierarchy_id_which_doesnt_belong_to_that_user()
-    {
-        $users_non_related_hierarchy_id = $this->hierarchies[1][0]->id;
-        $response = $this->actingAs($this->users->first())
-            ->json('GET',"/hierarchy/$users_non_related_hierarchy_id" );
-        $response->assertStatus(404);
     }
 
     public function test_update_modifies_an_existing_hierarchy()
@@ -108,6 +100,15 @@ class HierarchyControllerTest extends TestCase
         $this->assertEquals(3, Hierarchy::all()->count());
         $this->assertEquals(0, Action::all()->count());
         $this->assertEquals(0, Page::all()->count());
+    }
+
+    public function test_actions_retrieves_all_actions_for_a_hierarchy()
+    {
+        $hierarchy_id = $this->hierarchies[0][0]->id;
+        $actions = factory(Action::class,10)->create(['hierarchy_id' => $hierarchy_id]);
+        $response = $this->json('GET', 'api/hierarchy/'.$hierarchy_id.'/actions');
+        $response->assertStatus(200);
+        $this->assertEquals($actions->count(), count($response->getOriginalContent()));
     }
 
     public function getUserHierarchyIdsAsArray($user_id)
