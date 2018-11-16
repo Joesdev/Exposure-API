@@ -45,7 +45,7 @@ class ActionControllerTest extends TestCase
     public function test_show_retrieves_a_single_action()
     {
         $hierarchy_id = $this->hierarchy->first()->id;
-        $actions = factory(Action::class,10)->create(['hierarchy_id' => $hierarchy_id]);
+        $actions = factory(Action::class,3)->create(['hierarchy_id' => $hierarchy_id]);
         $response = $this->json('GET', 'api/action/'. $actions->first()->id);
         $response->assertStatus(200);
         $response->assertJsonStructure([
