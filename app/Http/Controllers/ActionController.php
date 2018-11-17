@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Action;
 use App\Hierarchy;
 
 class ActionController extends Controller
 {
+
+    public function index(Hierarchy $hierarchy)
+    {
+        $actions = $hierarchy->actions()->get();
+        return $actions;
+    }
 
     public function store(Hierarchy $hierarchy)
     {
@@ -17,5 +24,8 @@ class ActionController extends Controller
         return view('test_forms.action_create');
     }
 
-
+    public function show(Action $action)
+    {
+        return $action;
+    }
 }
