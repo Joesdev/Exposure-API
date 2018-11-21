@@ -28,4 +28,9 @@ class ActionController extends Controller
     {
         return $action;
     }
+
+    public function update(Action $action)
+    {
+        $action->update(request(['description', 'fear_average']));
+    }
 }

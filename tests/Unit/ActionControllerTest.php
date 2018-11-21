@@ -55,6 +55,34 @@ class ActionControllerTest extends TestCase
         $this->assertEquals($actions->first()->id, $response->getOriginalContent()->id);
     }
 
+    public function test_update_modifies_description_of_an_action()
+    {
+        $action = factory(Action::class)->create(['hierarchy_id' => $this->hierarchy->first()->id]);
+        $new_description = 'updated description';
+        $fear_average = 0.5;
+        $response = $this->json('PATCH', "api/action/$action->id", [
+            'description' => $new_description,
+            'fear_average'=> $fear_average
+        ]);
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('actions', [
+            'id' => $action->id,
+            'description' => $new_description,
+            'fear_average' => $fear_average
+        ]);
+    }
+
+    public function test_update_throws_exception_when_modifying_columns_other_than_description_or_fear_average()
+    {
+        $action = factory(Action::class)->create(['hierarchy_id' => $this->hierarchy->first()->id]);
+        $this->expectException();
+        $response = $this->json('PATCH', "api/action/$action->id", [
+            'hierarchy_id' => 99
+        ]);
+        $this->assertStatus(500);
+
+    }
+
     public function generateActionDescriptions($num_of_descriptions)
     {
         $actions = [];
