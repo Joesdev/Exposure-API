@@ -10,27 +10,27 @@ class HierarchyController extends Controller
 
     public function index()
     {
-        $hierarchies = Hierarchy::where('user_id', Auth::id())->get();
+        $hierarchies = Hierarchy::all();
         return $hierarchies;
     }
 
     public function store()
     {
-        Hierarchy::create([
-            'user_id' => Auth::id(),
-            'goal' => request('goal')
-        ]);
+        $hierarchy = Hierarchy::create(request()->all());
+        return $hierarchy;
     }
 
-    public function create()
+    public function destroy(Hierarchy $hierarchy)
     {
-        return view('test_forms.hierarchy_create');
+        if($hierarchy->delete()){
+            return $hierarchy;
+        }
     }
 
     public function update(Hierarchy $hierarchy)
     {
-        $this->verifyUserOwnsAHierarchy($hierarchy);
         $hierarchy->update(request()->all());
+        return $hierarchy;
     }
 
     public function show(Hierarchy $hierarchy)
@@ -43,20 +43,9 @@ class HierarchyController extends Controller
         return view('test_forms.hierarchy_edit', compact('hierarchy'));
     }
 
-    public function destroy(Hierarchy $hierarchy)
-    {
-        $this->verifyUserOwnsAHierarchy($hierarchy);
-        $hierarchy->delete();
-    }
-
     public function actions(Hierarchy $hierarchy)
     {
         $actions = $hierarchy->actions()->get();
         return $actions;
-    }
-
-    public function verifyUserOwnsAHierarchy(Hierarchy $hierarchy)
-    {
-        ($hierarchy->user_id != Auth::id()) ? abort(404) : true;
     }
 }

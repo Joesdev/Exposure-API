@@ -26,12 +26,63 @@ class HierarchyControllerTest extends TestCase
         $this->hierarchies = $this->runHierarchyFactoriesForEveryUser($this->users,$this->num_hierarchies);
     }
 
-    public function test_index_returns_multiple_hierarchies_for_a_user()
+    public function test_index_returns_all_rows_in_hierarchy_table()
     {
-        $response = $this->actingAs($this->users->first())
-                        ->json('GET','/hierarchy');
+        $response = $this->json('GET','/api/hierarchies');
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(count($this->hierarchies[0]), count($response->getOriginalContent()));
+        $this->assertEquals(4, count($response->getOriginalContent()));
+    }
+
+    public function test_store_saves_goal_and_user_id_columns_to_database()
+    {
+        $input = [
+                'user_id' => 44,
+                'goal' => 'Getting Success'
+        ];
+        $response = $this->json('POST', '/api/hierarchy', $input);
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('hierarchies', $input);
+    }
+
+    public function test_destroy_removes_a_hierarchy_from_db()
+    {
+        $userHierarchyStartCount = $this->users->first()->countHierarchies();
+        $hierarchy = $this->hierarchies[0][0];
+        $response = $this->json('DELETE', "api/hierarchy/$hierarchy->id");
+        $response->assertStatus(200);
+        $this->assertEquals($userHierarchyStartCount - 1, $this->users->first()->countHierarchies());
+    }
+
+    public function test_destroy_returns_404_when_accessing_invalid_id()
+    {
+        $invalid_id = 44;
+        $response = $this->json('DELETE', "api/hierarchy/$invalid_id");
+        $response->assertStatus(404);
+    }
+
+    public function test_destroy_deletes_all_related_table_rows()
+    {
+        $hierarchy = $this->hierarchies[0][0];
+        $actions = factory(Action::class,10)->create(['hierarchy_id' => $hierarchy->id]);
+        factory(Page::class,5)->create(['action_id' => $actions->first()->id]);
+        $response = $this->json('DELETE', "api/hierarchy/$hierarchy->id");
+        //Hierarchy Deleted so all related rows in actions and pages should also be deleted
+        $response->assertStatus(200);
+        $this->assertEquals(3, Hierarchy::all()->count());
+        $this->assertEquals(0, Action::all()->count());
+        $this->assertEquals(0, Page::all()->count());
+    }
+
+    public function test_update_modifies_an_existing_hierarchy()
+    {
+        $hierarchy = $this->hierarchies[0][0];
+        $inputs = [
+            'user_id' => 44,
+            'goal' => 'updated!'
+        ];
+        $response = $this->json('PATCH', "api/hierarchy/$hierarchy->id", $inputs);
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('hierarchies', $inputs);
     }
 
     public function test_show_returns_a_single_hierarchy_based_on_an_id()
@@ -44,62 +95,6 @@ class HierarchyControllerTest extends TestCase
             'user_id',
             'goal'
         ]);
-    }
-
-    public function test_update_modifies_an_existing_hierarchy()
-    {
-        $hierarchy = $this->hierarchies[0][0];
-        $goal = 'Updated!';
-        $response = $this->actingAs($this->users->first())
-                         ->json('PATCH', "/hierarchy/$hierarchy->id", ['goal' => $goal]);
-        $response->assertStatus(200);
-        $this->assertDatabaseHas('hierarchies', [
-            'id'      => $hierarchy->id,
-            'user_id' => $hierarchy->user_id,
-            'goal'    => $goal
-        ]);
-    }
-
-    public function test_update_cannot_update_another_users_hierarchy()
-    {
-        $notThisUsershHierarchy = $this->hierarchies[1][0];
-        $goal = 'Updated!';
-        $response = $this->actingAs($this->users->first())
-            ->json('PATCH', "/hierarchy/$notThisUsershHierarchy->id", ['goal' => $goal]);
-        $response->assertStatus(404);
-    }
-
-    public function test_destroy_removes_a_hierarchy_from_db()
-    {
-        $userHierarchyStartCount = $this->users->first()->countHierarchies();
-        $hierarchy = $this->hierarchies[0][0];
-        $response = $this->actingAs($this->users->first())
-                         ->json('DELETE', "/hierarchy/$hierarchy->id");
-        $response->assertStatus(200);
-        $this->assertEquals($userHierarchyStartCount - 1, $this->users->first()->countHierarchies());
-    }
-
-    public function test_destroy_returns_404_when_deleting_another_users_hierarchy()
-    {
-        $hierarchy = $this->hierarchies[1][0];
-        $response = $this->actingAs($this->users->first())
-            ->json('DELETE', "/hierarchy/$hierarchy->id");
-        $response->assertStatus(404);
-    }
-
-    public function test_destroy_deletes_all_related_table_rows()
-    {
-        $user = $this->users->first();
-        $hierarchy = $this->hierarchies[0][0];
-        $actions = factory(Action::class,10)->create(['hierarchy_id' => $hierarchy->id]);
-        factory(Page::class,5)->create(['action_id' => $actions->first()->id]);
-        $response = $this->actingAs($user)
-                        ->json('DELETE', "/hierarchy/$hierarchy->id");
-        //Hierarchy Deleted so all related rows in actions and pages should also be deleted
-        $response->assertStatus(200);
-        $this->assertEquals(3, Hierarchy::all()->count());
-        $this->assertEquals(0, Action::all()->count());
-        $this->assertEquals(0, Page::all()->count());
     }
 
     public function test_actions_retrieves_all_actions_for_a_hierarchy()
