@@ -20,9 +20,3 @@ Route::get('/', function () {
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-
-Route::delete('/hierarchy/{hierarchy}', 'HierarchyController@destroy')->name('hierarchy.delete');
-Route::get('/hierarchy/create', 'HierarchyController@create')->name('hierarchy.create');
-Route::patch('/hierarchy/{hierarchy}', 'HierarchyController@update')->name('hierarchy.update');
-Route::get('/hierarchy/{hierarchy}/edit', 'HierarchyController@edit')->name('hierarchy.edit');
