@@ -72,14 +72,27 @@ class ActionControllerTest extends TestCase
         ]);
     }
 
-    public function test_update_throws_exception_when_modifying_columns_other_than_description_or_fear_average()
+    public function test_update_has_valid_fields()
+    {
+        $description = 'This description is supposed to be limited to 50 characters, Im close to 70.';
+        $action = factory(Action::class)->create(['hierarchy_id' => $this->hierarchy->first()->id]);
+        $this->json('PATCH', "api/action/$action->id", [
+            'description' => $description,
+        ])->assertJsonValidationErrors('description');
+    }
+
+    public function test_update_fails_to_touch_database_when_modifying_columns_other_than_description_or_fear_average()
     {
         $action = factory(Action::class)->create(['hierarchy_id' => $this->hierarchy->first()->id]);
-        $this->expectException();
+        $false_hierarchy_id = 99;
         $response = $this->json('PATCH', "api/action/$action->id", [
-            'hierarchy_id' => 99
+            'hierarchy_id' => $false_hierarchy_id
         ]);
-        $this->assertStatus(500);
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('actions',[
+            'hierarchy_id' => $false_hierarchy_id
+        ]);
+
 
     }
 
