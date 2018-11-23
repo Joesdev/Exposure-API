@@ -28,7 +28,7 @@ class HierarchyControllerTest extends TestCase
 
     public function test_index_returns_all_rows_in_hierarchy_table()
     {
-        $response = $this->json('GET','/api/hierarchy');
+        $response = $this->json('GET','/api/hierarchies');
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(4, count($response->getOriginalContent()));
     }

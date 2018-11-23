@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //Hierarchy
-Route::get('/hierarchy', 'HierarchyController@index')->name('hierarchy.index');
+Route::get('/hierarchies', 'HierarchyController@index')->name('hierarchy.index');
 Route::post('/hierarchy', 'HierarchyController@store')->name('hierarchy.store');
 Route::delete('/hierarchy/{hierarchy}', 'HierarchyController@destroy')->name('hierarchy.delete');
 Route::patch('/hierarchy/{hierarchy}', 'HierarchyController@update')->name('hierarchy.update');
