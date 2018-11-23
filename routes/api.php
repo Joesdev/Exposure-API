@@ -22,7 +22,6 @@ Route::get('/hierarchy', 'HierarchyController@index')->name('hierarchy.index');
 Route::post('/hierarchy', 'HierarchyController@store')->name('hierarchy.store');
 Route::delete('/hierarchy/{hierarchy}', 'HierarchyController@destroy')->name('hierarchy.delete');
 Route::patch('/hierarchy/{hierarchy}', 'HierarchyController@update')->name('hierarchy.update');
-
 Route::get('/hierarchy/{hierarchy}', 'HierarchyController@show')->name('hierarchy.show');
 Route::get('/hierarchy/{hierarchy}/actions', 'HierarchyController@actions')->name('hierarchy.actions');
 
