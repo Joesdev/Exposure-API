@@ -26,12 +26,22 @@ class HierarchyControllerTest extends TestCase
         $this->hierarchies = $this->runHierarchyFactoriesForEveryUser($this->users,$this->num_hierarchies);
     }
 
-    public function test_index_returns_multiple_hierarchies_for_a_user()
+    public function test_index_returns_all_rows_in_hierarchy_table()
     {
-        $response = $this->actingAs($this->users->first())
-                        ->json('GET','/hierarchy');
+        $response = $this->json('GET','/api/hierarchy');
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(count($this->hierarchies[0]), count($response->getOriginalContent()));
+        $this->assertEquals(4, count($response->getOriginalContent()));
+    }
+
+    public function test_store_saves_goal_and_user_id_columns_to_database()
+    {
+        $input = [
+                'user_id' => 44,
+                'goal' => 'Getting Success'
+        ];
+        $response = $this->json('POST', '/api/hierarchy', $input);
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('hierarchies', $input);
     }
 
     public function test_show_returns_a_single_hierarchy_based_on_an_id()

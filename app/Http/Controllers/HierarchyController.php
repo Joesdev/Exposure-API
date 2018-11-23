@@ -10,16 +10,14 @@ class HierarchyController extends Controller
 
     public function index()
     {
-        $hierarchies = Hierarchy::where('user_id', Auth::id())->get();
+        $hierarchies = Hierarchy::all();
         return $hierarchies;
     }
 
     public function store()
     {
-        Hierarchy::create([
-            'user_id' => Auth::id(),
-            'goal' => request('goal')
-        ]);
+        $hierarchy = Hierarchy::create(request()->all());
+        return $hierarchy;
     }
 
     public function create()
