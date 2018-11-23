@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Action;
 use App\Hierarchy;
+use Validator;
 
 class ActionController extends Controller
 {
@@ -31,9 +32,14 @@ class ActionController extends Controller
 
     public function update(Action $action)
     {
-        request()->validate([
-            'description' => 'required'
-        ]);
-        $action->update(request()->only(['description', 'fear_average']));
+        $rules = [
+            'description'  => 'required'
+        ];
+        $validator = Validator::make(request()->only('description'), $rules);
+        if($validator->fails()){
+            return response()->json(['errors' => $validator->errors()], 400);
+        }else{
+            dd('success');
+        }
     }
 }
