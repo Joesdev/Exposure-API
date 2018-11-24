@@ -32,14 +32,20 @@ class ActionController extends Controller
 
     public function update(Action $action)
     {
+
+        $validator->make('action', 'post');
         $rules = [
-            'description'  => 'required'
+            'description'  => 'required_without:fear_average|min:5|max:60'
         ];
-        $validator = Validator::make(request()->only('description'), $rules);
+        $messages = [
+            'required_without' => 'The :attribute field is required'
+        ];
+        $validator = Validator::make(request()->only(['description', 'fear_average']), $rules, $messages);
         if($validator->fails()){
             return response()->json(['errors' => $validator->errors()], 400);
         }else{
-            dd('success');
+            $action->update(request()->only(['description', 'fear_average']));
+            return $action;
         }
     }
 }

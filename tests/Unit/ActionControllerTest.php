@@ -55,7 +55,7 @@ class ActionControllerTest extends TestCase
         $this->assertEquals($actions->first()->id, $response->getOriginalContent()->id);
     }
 
-    /*public function test_update_modifies_description_of_an_action()
+    public function test_update_modifies_description_of_an_action()
     {
         $action = factory(Action::class)->create(['hierarchy_id' => $this->hierarchy->first()->id]);
         $new_description = 'updated description';
@@ -70,30 +70,33 @@ class ActionControllerTest extends TestCase
             'description' => $new_description,
             'fear_average' => $fear_average
         ]);
-    }*/
+    }
 
-    public function test_update_has_valid_fields()
+    public function test_update_returns_status_400_for_description_thats_too_long()
     {
         $description = 'This description is supposed to be limited to 50 characters, Im close to 70.';
         $action = factory(Action::class)->create(['hierarchy_id' => $this->hierarchy->first()->id]);
-        $this->json('PATCH', "api/action/$action->id", [
+        $response = $this->json('PATCH', "api/action/$action->id", [
             'description' => $description,
         ]);
-        $this->assertEquals(0,1);
+        $this->assertValidationErrorsForFieldWith400($response, 'description');
     }
 
-    /*public function test_update_fails_to_touch_database_when_modifying_columns_other_than_description_or_fear_average()
+    public function test_update_returns_400_and_error_for_description_required_field()
     {
+        $description = '';
         $action = factory(Action::class)->create(['hierarchy_id' => $this->hierarchy->first()->id]);
-        $false_hierarchy_id = 99;
         $response = $this->json('PATCH', "api/action/$action->id", [
-            'hierarchy_id' => $false_hierarchy_id
+            'description' => $description,
         ]);
-        $response->assertStatus(200);
-        $this->assertDatabaseMissing('actions',[
-            'hierarchy_id' => $false_hierarchy_id
-        ]);
-    }*/
+        $this->assertValidationErrorsForFieldWith400($response, 'description');
+    }
+
+    public function assertValidationErrorsForFieldWith400($response, $key)
+    {
+        $response->assertStatus(400);
+        $response->assertJsonValidationErrors($key);
+    }
 
     public function generateActionDescriptions($num_of_descriptions)
     {
