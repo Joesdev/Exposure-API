@@ -34,7 +34,7 @@ class ActionController extends Controller
 
     public function update(Action $action, ActionUpdateRequest $request)
     {
-        $action->update(request()->only(['description', 'fear_average']));
+        $action->update($request->validated());
         return $action;
     }
 }

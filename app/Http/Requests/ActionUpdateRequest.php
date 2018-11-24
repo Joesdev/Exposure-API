@@ -24,7 +24,8 @@ class ActionUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'description'  => 'required_without:fear_average|min:5|max:60'
+            'description'  => 'required_without:fear_average|min:5|max:60',
+            'fear_average' => 'numeric'
         ];
     }
 
