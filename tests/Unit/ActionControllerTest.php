@@ -72,29 +72,29 @@ class ActionControllerTest extends TestCase
         ]);
     }
 
-    public function test_update_returns_status_400_for_description_thats_too_long()
+    public function test_update_returns_status_422_for_description_thats_too_long()
     {
         $description = 'This description is supposed to be limited to 50 characters, Im close to 70.';
         $action = factory(Action::class)->create(['hierarchy_id' => $this->hierarchy->first()->id]);
         $response = $this->json('PATCH', "api/action/$action->id", [
             'description' => $description,
         ]);
-        $this->assertValidationErrorsForFieldWith400($response, 'description');
+        $this->assertValidationErrorsForFieldWithStatus($response, 'description', 422);
     }
 
-    public function test_update_returns_400_and_error_for_description_required_field()
+    public function test_update_returns_422_and_error_for_description_required_field()
     {
         $description = '';
         $action = factory(Action::class)->create(['hierarchy_id' => $this->hierarchy->first()->id]);
         $response = $this->json('PATCH', "api/action/$action->id", [
             'description' => $description,
         ]);
-        $this->assertValidationErrorsForFieldWith400($response, 'description');
+        $this->assertValidationErrorsForFieldWithStatus($response, 'description', 422);
     }
 
-    public function assertValidationErrorsForFieldWith400($response, $key)
+    public function assertValidationErrorsForFieldWithStatus($response, $key, $status)
     {
-        $response->assertStatus(400);
+        $response->assertStatus($status);
         $response->assertJsonValidationErrors($key);
     }
 

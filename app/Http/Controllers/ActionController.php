@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ActionUpdateRequest;
+
 use App\Action;
 use App\Hierarchy;
 use Validator;
@@ -30,22 +32,9 @@ class ActionController extends Controller
         return $action;
     }
 
-    public function update(Action $action)
+    public function update(Action $action, ActionUpdateRequest $request)
     {
-
-        $validator->make('action', 'post');
-        $rules = [
-            'description'  => 'required_without:fear_average|min:5|max:60'
-        ];
-        $messages = [
-            'required_without' => 'The :attribute field is required'
-        ];
-        $validator = Validator::make(request()->only(['description', 'fear_average']), $rules, $messages);
-        if($validator->fails()){
-            return response()->json(['errors' => $validator->errors()], 400);
-        }else{
-            $action->update(request()->only(['description', 'fear_average']));
-            return $action;
-        }
+        $action->update(request()->only(['description', 'fear_average']));
+        return $action;
     }
 }
