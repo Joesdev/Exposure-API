@@ -55,6 +55,49 @@ class ActionControllerTest extends TestCase
         $this->assertEquals($actions->first()->id, $response->getOriginalContent()->id);
     }
 
+    public function test_update_modifies_description_of_an_action()
+    {
+        $action = factory(Action::class)->create(['hierarchy_id' => $this->hierarchy->first()->id]);
+        $new_description = 'updated description';
+        $fear_average = 0.5;
+        $response = $this->json('PATCH', "api/action/$action->id", [
+            'description' => $new_description,
+            'fear_average'=> $fear_average
+        ]);
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('actions', [
+            'id' => $action->id,
+            'description' => $new_description,
+            'fear_average' => $fear_average
+        ]);
+    }
+
+    public function test_update_returns_status_422_for_description_thats_too_long()
+    {
+        $description = 'This description is supposed to be limited to 50 characters, Im close to 70.';
+        $action = factory(Action::class)->create(['hierarchy_id' => $this->hierarchy->first()->id]);
+        $response = $this->json('PATCH', "api/action/$action->id", [
+            'description' => $description,
+        ]);
+        $this->assertValidationErrorsForFieldWithStatus($response, 'description', 422);
+    }
+
+    public function test_update_returns_422_and_error_for_description_required_field()
+    {
+        $description = '';
+        $action = factory(Action::class)->create(['hierarchy_id' => $this->hierarchy->first()->id]);
+        $response = $this->json('PATCH', "api/action/$action->id", [
+            'description' => $description,
+        ]);
+        $this->assertValidationErrorsForFieldWithStatus($response, 'description', 422);
+    }
+
+    public function assertValidationErrorsForFieldWithStatus($response, $key, $status)
+    {
+        $response->assertStatus($status);
+        $response->assertJsonValidationErrors($key);
+    }
+
     public function generateActionDescriptions($num_of_descriptions)
     {
         $actions = [];
