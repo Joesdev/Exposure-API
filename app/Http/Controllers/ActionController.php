@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ActionUpdateRequest;
+
 use App\Action;
 use App\Hierarchy;
+use Validator;
 
 class ActionController extends Controller
 {
@@ -26,6 +29,12 @@ class ActionController extends Controller
 
     public function show(Action $action)
     {
+        return $action;
+    }
+
+    public function update(Action $action, ActionUpdateRequest $request)
+    {
+        $action->update($request->validated());
         return $action;
     }
 }
