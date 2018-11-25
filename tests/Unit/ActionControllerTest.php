@@ -92,6 +92,15 @@ class ActionControllerTest extends TestCase
         $this->assertValidationErrorsForFieldWithStatus($response, 'description', 422);
     }
 
+    public function test_destroy_deletes_an_action_row()
+    {
+        $action = factory(Action::class)->create(['hierarchy_id' => $this->hierarchy->first()->id]);
+        $this->assertDatabaseHas('actions', ['id' => $action->id]);
+        $response = $this->json('DELETE', "/api/action/$action->id");
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('actions', [ 'id' => $action->id ]);
+    }
+
     public function assertValidationErrorsForFieldWithStatus($response, $key, $status)
     {
         $response->assertStatus($status);
