@@ -35,6 +35,8 @@ class ActionController extends Controller
 
     public function destroy(Action $action)
     {
-        return $action;
+        if($action->delete()) {
+            return $action;
+        }
     }
 }
