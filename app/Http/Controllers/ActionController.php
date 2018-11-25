@@ -22,11 +22,6 @@ class ActionController extends Controller
         $hierarchy->addAction(request(['level', 'description']));
     }
 
-    public function create()
-    {
-        return view('test_forms.action_create');
-    }
-
     public function show(Action $action)
     {
         return $action;
@@ -35,6 +30,11 @@ class ActionController extends Controller
     public function update(Action $action, ActionUpdateRequest $request)
     {
         $action->update($request->validated());
+        return $action;
+    }
+
+    public function destroy(Action $action)
+    {
         return $action;
     }
 }
