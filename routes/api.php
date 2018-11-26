@@ -20,14 +20,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Hierarchy
 Route::get('/hierarchies', 'HierarchyController@index')->name('hierarchy.index');
 Route::post('/hierarchy', 'HierarchyController@store')->name('hierarchy.store');
-Route::delete('/hierarchy/{hierarchy}', 'HierarchyController@destroy')->name('hierarchy.delete');
-Route::patch('/hierarchy/{hierarchy}', 'HierarchyController@update')->name('hierarchy.update');
 Route::get('/hierarchy/{hierarchy}', 'HierarchyController@show')->name('hierarchy.show');
+Route::patch('/hierarchy/{hierarchy}', 'HierarchyController@update')->name('hierarchy.update');
+Route::delete('/hierarchy/{hierarchy}', 'HierarchyController@destroy')->name('hierarchy.delete');
 Route::get('/hierarchy/{hierarchy}/actions', 'HierarchyController@actions')->name('hierarchy.actions');
 
 //Action
 Route::post('/hierarchy/{hierarchy}/action', 'ActionController@store')->name('action.store');// Refactor to /action?hierarchy_id={id}
 Route::get('/action/{action}', 'ActionController@show')->name('action.show');
 Route::patch('/action/{action}', 'ActionController@update')->name('action.update');
-Route::delete('/action/{action}', 'ActionController@destroy')->name('action.destroy');
+Route::delete('/action/{action}', 'ActionController@destroy')->name('action.delete');
+
+//Pages
+Route::post('/page', 'PageController@store')->name('page.show');
+
 
