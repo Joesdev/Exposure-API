@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -57,6 +58,10 @@ class Handler extends ExceptionHandler
             return response()->json([
                'errors' => 'Invalid Url'
             ], Response::HTTP_NOT_FOUND);
+        } else if($exception instanceof  QueryException){
+            return response()->json([
+                'errors' => 'Invalid Query'
+            ], 404);
         }
         return parent::render($request, $exception);
     }
