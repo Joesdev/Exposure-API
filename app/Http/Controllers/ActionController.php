@@ -22,7 +22,8 @@ class ActionController extends Controller
     {
         if(request()->has('hierarchy_id')){
             $hierarchy = Hierarchy::find(request()->hierarchy_id);
-            $hierarchy->addAction($request->validated());
+            $hierarchy = $hierarchy->addAction($request->validated());
+            return $hierarchy;
         };
     }
 
