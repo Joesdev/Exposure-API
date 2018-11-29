@@ -17,8 +17,11 @@ class ActionController extends Controller
         return $actions;
     }
 
-    public function store(Hierarchy $hierarchy)
+    public function store()
     {
+        if(request()->has('hierarchy_id')){
+
+        };
         $hierarchy->addAction(request(['level', 'description']));
     }
 
