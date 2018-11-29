@@ -54,7 +54,6 @@ class ActionControllerTest extends TestCase
 
     public function test_store_fails_validation_for_description_and_level_under_min_and_required()
     {
-
         $response = $this->json('POST', "/api/action?hierarchy_id=" . $this->hierarchy->first()->id, [
             'level' => 0,
             'description' => str_repeat('.',4)
