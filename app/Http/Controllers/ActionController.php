@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ActionStoreRequest;
 use App\Http\Requests\ActionUpdateRequest;
 
 use App\Action;
@@ -17,9 +18,13 @@ class ActionController extends Controller
         return $actions;
     }
 
-    public function store(Hierarchy $hierarchy)
+    public function store(ActionStoreRequest $request)
     {
-        $hierarchy->addAction(request(['level', 'description']));
+        if(request()->has('hierarchy_id')){
+            $hierarchy = Hierarchy::find(request()->hierarchy_id);
+            $hierarchy = $hierarchy->addAction($request->validated());
+            return $hierarchy;
+        };
     }
 
     public function show(Action $action)

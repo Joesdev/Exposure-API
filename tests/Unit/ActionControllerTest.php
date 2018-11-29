@@ -30,7 +30,7 @@ class ActionControllerTest extends TestCase
         $level = random_int(1,10);
         $description = $this->generateActionDescriptions(1);
         $response = $this->actingAs($this->user)
-            ->json('POST', "/api/hierarchy/$hierarchy_id/action", [
+            ->json('POST', "/api/action?hierarchy_id=$hierarchy_id", [
                 'level' => $level,
                 'description' => implode($description)
             ]);
@@ -40,6 +40,27 @@ class ActionControllerTest extends TestCase
             'level' => $level,
             'description' => $description
         ]);
+    }
+
+    public function test_store_fails_validation_for_description_and_level_over_max()
+    {
+
+        $response = $this->json('POST', "/api/action?hierarchy_id=" . $this->hierarchy->first()->id, [
+                'level' => 11,
+                'description' => str_repeat('.',75)
+        ]);
+        $response->assertJsonValidationErrors(['level', 'description']);
+    }
+
+    public function test_store_fails_validation_for_description_and_level_under_min_and_required()
+    {
+        $response = $this->json('POST', "/api/action?hierarchy_id=" . $this->hierarchy->first()->id, [
+            'level' => 0,
+            'description' => str_repeat('.',4)
+        ]);
+        $response->assertJsonValidationErrors(['level', 'description']);
+        $response = $this->json('POST', "/api/action?hierarchy_id=" . $this->hierarchy->first()->id);
+        $response->assertJsonValidationErrors(['level', 'description']);
     }
 
     public function test_show_retrieves_a_single_action()
