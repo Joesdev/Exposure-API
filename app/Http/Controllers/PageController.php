@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PagePostRequest;
+use App\Http\Requests\PageStoreRequest;
 use App\Http\Requests\PageUpdateRequest;
 use App\Http\Resources\Page as PageResource;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ use App\Page;
 
 class PageController extends Controller
 {
-    public function store(PagePostRequest $request)
+    public function store(PageStoreRequest $request)
     {
         if(request()->has('actionId')){
             $inputs = $request->validated();
@@ -23,6 +23,6 @@ class PageController extends Controller
     public function update(Page $page, PageUpdateRequest $request)
     {
         $page->update($request->validated());
-        return $page;
+        return new PageResource($page);
     }
 }
