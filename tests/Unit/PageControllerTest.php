@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Hierarchy;
 use App\Action;
+use App\Page;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,12 +16,14 @@ class PageControllerTest extends TestCase
 
     protected $hierarchy;
     protected $action;
+    protected $page;
 
     public function setUp()
     {
         parent::setUp();
         $this->hierarchy = factory(Hierarchy::class)->create(['user_id' => 1]);
         $this->action = factory(Action::class)->create(['hierarchy_id' => $this->hierarchy->id]);
+        $this->page = factory(Page::class)->create(['action_id' => $this->action->id]);
     }
 
     public function test_store_creates_a_page_row_in_pages_table()
@@ -60,16 +63,16 @@ class PageControllerTest extends TestCase
     public function test_update_modifies_all_fields_except_action_id()
     {
         $valid_fields = $this->validFields();
-        $response = $this->json('PATCH', '/api/page/'. $this->action->id, $valid_fields);
+        $response = $this->json('PATCH', '/api/page/'. $this->page->id, $valid_fields);
         $response->assertStatus(200);
         $this->assertDatabaseHas('pages', $valid_fields);
     }
 
     public function test_update_returns_json_error_when_modifying_action_id()
     {
-        $valid_fields = $this->validFields(['action_id' => 99]);
-        $response = $this->json('PATCH', '/api/page/'. $this->action->id, $valid_fields);
-        $response->assertStatus(404);
+        $valid_fields = $this->validFields(['action_id' => $this->action->id]);
+        $response = $this->json('PATCH', '/api/page/'. $this->page->id, $valid_fields);
+        $response->assertJsonValidationErrors('action_id');
     }
 
     public function validFields($overrides= []){

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PagePostRequest;
+use App\Http\Requests\PageUpdateRequest;
 use App\Http\Resources\Page as PageResource;
 use Illuminate\Http\Request;
 use App\Page;
@@ -19,8 +20,9 @@ class PageController extends Controller
         }
     }
 
-    public function update(Page $page)
+    public function update(Page $page, PageUpdateRequest $request)
     {
-
+        $page->update($request->validated());
+        return $page;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\FieldIsEmpty;
 
 class PageUpdateRequest extends FormRequest
 {
@@ -24,7 +25,7 @@ class PageUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'action_id' => 'FieldIsEmpty',
+            'action_id'    => [new FieldIsEmpty()],
             'description'  => 'string|max:150',
             'fear_before'  => 'integer|between:1,10',
             'fear_during'  => 'integer|between:1,10',
