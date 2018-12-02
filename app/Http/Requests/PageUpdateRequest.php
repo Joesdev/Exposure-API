@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\FieldIsEmpty;
 
-class PagePostRequest extends FormRequest
+class PageUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +25,8 @@ class PagePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'description'  => 'required|string|max:150',
+            'action_id'    => [new FieldIsEmpty()],
+            'description'  => 'string|max:150',
             'fear_before'  => 'integer|between:1,10',
             'fear_during'  => 'integer|between:1,10',
             'satisfaction' => 'integer|between:1,10'
