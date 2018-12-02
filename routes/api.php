@@ -33,5 +33,6 @@ Route::delete('/action/{action}', 'ActionController@destroy')->name('action.dele
 
 //Pages
 Route::post('/page', 'PageController@store')->name('page.show');
+Route::patch('/page/{page}', 'PageController@update')->name('page.update');
 
 

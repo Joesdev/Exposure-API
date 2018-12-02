@@ -18,4 +18,9 @@ class PageController extends Controller
             return new PageResource($page);
         }
     }
+
+    public function update(Page $page)
+    {
+
+    }
 }

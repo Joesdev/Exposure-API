@@ -34,7 +34,7 @@ class ActionControllerTest extends TestCase
                 'level' => $level,
                 'description' => implode($description)
             ]);
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(201, $response->getStatusCode());
         $this->assertDatabaseHas('actions', [
             'hierarchy_id' => $hierarchy_id,
             'level' => $level,

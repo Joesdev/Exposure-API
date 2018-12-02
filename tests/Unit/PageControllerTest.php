@@ -57,6 +57,21 @@ class PageControllerTest extends TestCase
         $response->assertJsonValidationErrors(['fear_before','fear_during', 'satisfaction']);
     }
 
+    public function test_update_modifies_all_fields_except_action_id()
+    {
+        $valid_fields = $this->validFields();
+        $response = $this->json('PATCH', '/api/page/'. $this->action->id, $valid_fields);
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('pages', $valid_fields);
+    }
+
+    public function test_update_returns_json_error_when_modifying_action_id()
+    {
+        $valid_fields = $this->validFields(['action_id' => 99]);
+        $response = $this->json('PATCH', '/api/page/'. $this->action->id, $valid_fields);
+        $response->assertStatus(404);
+    }
+
     public function validFields($overrides= []){
         return array_merge([
             'description'  => $this->faker()->sentence(15),
