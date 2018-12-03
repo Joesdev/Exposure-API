@@ -22,17 +22,18 @@ Route::get('/hierarchies', 'HierarchyController@index')->name('hierarchy.index')
 Route::post('/hierarchy', 'HierarchyController@store')->name('hierarchy.store');
 Route::get('/hierarchy/{hierarchy}', 'HierarchyController@show')->name('hierarchy.show');
 Route::patch('/hierarchy/{hierarchy}', 'HierarchyController@update')->name('hierarchy.update');
-Route::delete('/hierarchy/{hierarchy}', 'HierarchyController@destroy')->name('hierarchy.delete');
+Route::delete('/hierarchy/{hierarchy}', 'HierarchyController@destroy')->name('hierarchy.destroy');
 Route::get('/hierarchy/{hierarchy}/actions', 'HierarchyController@actions')->name('hierarchy.actions');
 
 //Action
 Route::post('/action', 'ActionController@store')->name('action.store');// Refactor to /action?hierarchy_id={id}
 Route::get('/action/{action}', 'ActionController@show')->name('action.show');
 Route::patch('/action/{action}', 'ActionController@update')->name('action.update');
-Route::delete('/action/{action}', 'ActionController@destroy')->name('action.delete');
+Route::delete('/action/{action}', 'ActionController@destroy')->name('action.destroy');
 
-//Pages
+//Page
 Route::post('/page', 'PageController@store')->name('page.show');
 Route::patch('/page/{page}', 'PageController@update')->name('page.update');
+Route::delete('/page/{page}', 'PageController@destroy')->name('page.destroy');
 
 
