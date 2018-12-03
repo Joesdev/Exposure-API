@@ -25,4 +25,11 @@ class PageController extends Controller
         $page->update($request->validated());
         return new PageResource($page);
     }
+
+    public function destroy(Page $page)
+    {
+        if($page->delete()){
+            return new PageResource($page);
+        };
+    }
 }

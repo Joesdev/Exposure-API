@@ -75,6 +75,21 @@ class PageControllerTest extends TestCase
         $response->assertJsonValidationErrors('action_id');
     }
 
+    public function test_destroy_removes_a_row_from_database_and_returns_formatted_data_without_updated_or_created_at()
+    {
+        $response = $this->json('DELETE', '/api/page/' . $this->page->id);
+        $response->assertStatus(200);
+        $response->assertJson($this->getDataInResourceFormat());
+        $this->assertDatabaseMissing('pages' , $this->page->toArray());
+    }
+
+    public function test_destroy_returns_an_error_message_when_accessing_a_row_that_does_not_exit()
+    {
+        $response = $this->json('DELETE', '/api/page/' . 99);
+        $response->assertStatus(404);
+        $response->assertJson(['errors' => 'Model Not Found']);
+    }
+
     public function validFields($overrides= []){
         return array_merge([
             'description'  => $this->faker()->sentence(15),
@@ -82,5 +97,17 @@ class PageControllerTest extends TestCase
             'fear_during'  => $this->faker()->numberBetween(5,7),
             'satisfaction' => $this->faker()->numberBetween(5,10)
         ], $overrides);
+    }
+
+    public function getDataInResourceFormat($overrides = [])
+    {
+        $data = array_merge([
+            'action_id'    => $this->page->action_id,
+            'text'         => $this->page->description,
+            'fear_before'  => $this->page->fear_before,
+            'fear_during'  => $this->page->fear_during,
+            'satisfaction' => $this->page->satisfaction
+        ], $overrides);
+        return ['data' => $data];
     }
 }
