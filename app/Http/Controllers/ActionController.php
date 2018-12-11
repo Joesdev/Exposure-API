@@ -13,10 +13,9 @@ use Validator;
 class ActionController extends Controller
 {
 
-    public function index(Hierarchy $hierarchy)
+    public function index()
     {
-        $actions = $hierarchy->actions()->get();
-        return $actions;
+        return ActionResource::collection(Action::all());
     }
 
     public function store(ActionStoreRequest $request)
