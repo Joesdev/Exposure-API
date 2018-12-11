@@ -31,6 +31,11 @@ class HierarchyControllerTest extends TestCase
         $response = $this->json('GET','/api/hierarchies');
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(4, count($response->getOriginalContent()));
+        $response->assertJsonStructure(['data' => [
+            [[
+                'user_id', 'goal'
+            ]]
+        ]]);
     }
 
     public function test_store_saves_goal_and_user_id_columns_to_database()

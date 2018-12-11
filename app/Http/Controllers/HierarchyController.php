@@ -12,7 +12,7 @@ class HierarchyController extends Controller
     public function index()
     {
         $hierarchies = Hierarchy::all();
-        return $hierarchies;
+        return HierarchyResource::collection($hierarchies);
     }
 
     public function store()
