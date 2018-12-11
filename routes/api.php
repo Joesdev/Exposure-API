@@ -26,6 +26,7 @@ Route::delete('/hierarchy/{hierarchy}', 'HierarchyController@destroy')->name('hi
 Route::get('/hierarchy/{hierarchy}/actions', 'HierarchyController@actions')->name('hierarchy.actions');
 
 //Action
+Route::get('/actions', 'ActionController@index')->name('action.index');
 Route::post('/action', 'ActionController@store')->name('action.store');// Refactor to /action?hierarchy_id={id}
 Route::get('/action/{action}', 'ActionController@show')->name('action.show');
 Route::patch('/action/{action}', 'ActionController@update')->name('action.update');

@@ -31,6 +31,11 @@ class HierarchyControllerTest extends TestCase
         $response = $this->json('GET','/api/hierarchies');
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(4, count($response->getOriginalContent()));
+        $response->assertJsonStructure(['data' =>
+            [[
+                'user_id', 'goal'
+            ]]
+        ]);
     }
 
     public function test_store_saves_goal_and_user_id_columns_to_database()
@@ -92,8 +97,10 @@ class HierarchyControllerTest extends TestCase
                         ->json('GET',"api/hierarchy/$users_related_hierarchy_id" );
         $this->assertEquals(200, $response->getStatusCode());
         $response->assertJsonStructure([
-            'user_id',
-            'goal'
+            'data' => [
+                'user_id',
+                'goal'
+            ]
         ]);
     }
 
@@ -104,6 +111,11 @@ class HierarchyControllerTest extends TestCase
         $response = $this->json('GET', 'api/hierarchy/'.$hierarchy_id.'/actions');
         $response->assertStatus(200);
         $this->assertEquals($actions->count(), count($response->getOriginalContent()));
+        $response->assertJsonStructure([
+            'data' => [[
+                'hierarchy_id', 'level', 'description', 'fear_average'
+            ]]
+        ]);
     }
 
     public function getUserHierarchyIdsAsArray($user_id)

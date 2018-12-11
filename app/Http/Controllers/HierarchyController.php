@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\Action;
+use App\Http\Resources\Hierarchy as HierarchyResource;
 use App\Hierarchy;
 
 class HierarchyController extends Controller
@@ -11,41 +12,36 @@ class HierarchyController extends Controller
     public function index()
     {
         $hierarchies = Hierarchy::all();
-        return $hierarchies;
+        return HierarchyResource::collection($hierarchies);
     }
 
     public function store()
     {
         $hierarchy = Hierarchy::create(request()->all());
-        return $hierarchy;
+        return new HierarchyResource($hierarchy);
     }
 
     public function destroy(Hierarchy $hierarchy)
     {
         if($hierarchy->delete()){
-            return $hierarchy;
+            return new HierarchyResource($hierarchy);
         }
     }
 
     public function update(Hierarchy $hierarchy)
     {
         $hierarchy->update(request()->all());
-        return $hierarchy;
+        return new HierarchyResource($hierarchy);
     }
 
     public function show(Hierarchy $hierarchy)
     {
-        return $hierarchy;
-    }
-
-    public function edit(Hierarchy $hierarchy)
-    {
-        return view('test_forms.hierarchy_edit', compact('hierarchy'));
+        return new HierarchyResource($hierarchy);
     }
 
     public function actions(Hierarchy $hierarchy)
     {
         $actions = $hierarchy->actions()->get();
-        return $actions;
+        return Action::collection($actions);
     }
 }
