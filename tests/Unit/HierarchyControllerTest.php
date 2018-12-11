@@ -104,9 +104,13 @@ class HierarchyControllerTest extends TestCase
         $hierarchy_id = $this->hierarchies[0][0]->id;
         $actions = factory(Action::class,10)->create(['hierarchy_id' => $hierarchy_id]);
         $response = $this->json('GET', 'api/hierarchy/'.$hierarchy_id.'/actions');
-
         $response->assertStatus(200);
         $this->assertEquals($actions->count(), count($response->getOriginalContent()));
+        $response->assertJsonStructure([
+            'data' => [[
+                'hierarchy_id', 'level', 'description', 'fear_average'
+            ]]
+        ]);
     }
 
     public function getUserHierarchyIdsAsArray($user_id)
