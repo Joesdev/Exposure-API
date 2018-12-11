@@ -69,8 +69,9 @@ class ActionControllerTest extends TestCase
         $actions = factory(Action::class,3)->create(['hierarchy_id' => $hierarchy_id]);
         $response = $this->json('GET', 'api/action/'. $actions->first()->id);
         $response->assertStatus(200);
-        $response->assertJsonStructure([
+        $response->assertJsonStructure(['data' => [
             'hierarchy_id', 'level', 'description', 'fear_average'
+            ]
         ]);
         $this->assertEquals($hierarchy_id, $response->getOriginalContent()->hierarchy_id);
         $this->assertEquals($actions->first()->id, $response->getOriginalContent()->id);
