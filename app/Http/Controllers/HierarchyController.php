@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Action;
 use App\Http\Resources\Hierarchy as HierarchyResource;
 use App\Hierarchy;
 
@@ -41,6 +42,6 @@ class HierarchyController extends Controller
     public function actions(Hierarchy $hierarchy)
     {
         $actions = $hierarchy->actions()->get();
-        return $actions;
+        return Action::collection($actions);
     }
 }

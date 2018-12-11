@@ -28,6 +28,7 @@ class PageControllerTest extends TestCase
 
     public function test_store_creates_a_page_row_in_pages_table()
     {
+        $this->refreshDatabase();
         $fields = $this->validFields();
         $response = $this->json('POST', "api/page?actionId=" . $this->action->id,
             $fields);
@@ -92,7 +93,7 @@ class PageControllerTest extends TestCase
 
     public function validFields($overrides= []){
         return array_merge([
-            'description'  => $this->faker()->sentence(15),
+            'description'  => $this->faker()->sentence(10),
             'fear_before'  => $this->faker()->numberBetween(7,9),
             'fear_during'  => $this->faker()->numberBetween(5,7),
             'satisfaction' => $this->faker()->numberBetween(5,10)
