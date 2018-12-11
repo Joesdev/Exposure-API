@@ -16,7 +16,7 @@ class Page extends JsonResource
     {
         return [
             'action_id'    => $this->action_id,
-            'text'         => $this->description,
+            'description'  => $this->description,
             'fear_before'  => $this->fear_before,
             'fear_during'  => $this->fear_during,
             'satisfaction' => $this->satisfaction

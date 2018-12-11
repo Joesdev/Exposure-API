@@ -21,6 +21,11 @@ class PageController extends Controller
         }
     }
 
+    public function show(Page $page)
+    {
+        return new PageResource($page);
+    }
+
     public function update(Page $page, PageUpdateRequest $request)
     {
         $page->update($request->validated());

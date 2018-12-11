@@ -84,6 +84,15 @@ class PageControllerTest extends TestCase
         $this->assertDatabaseMissing('pages' , $this->page->toArray());
     }
 
+    public function test_show_returns_a_single_page_with_correct_structure()
+    {
+        $response = $this->json('GET', '/api/page/' . $this->page->id);
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['data' =>
+            ['action_id', 'description', 'fear_before', 'fear_during', 'satisfaction']
+        ]);
+    }
+
     public function test_destroy_returns_an_error_message_when_accessing_a_row_that_does_not_exit()
     {
         $response = $this->json('DELETE', '/api/page/' . 99);
