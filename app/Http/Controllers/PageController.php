@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PageStoreRequest;
 use App\Http\Requests\PageUpdateRequest;
 use App\Http\Resources\Page as PageResource;
+
 use Illuminate\Http\Request;
 use App\Page;
 
