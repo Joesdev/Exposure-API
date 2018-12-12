@@ -26,6 +26,18 @@ class PageControllerTest extends TestCase
         $this->page = factory(Page::class)->create(['action_id' => $this->action->id]);
     }
 
+    public function test_index_returns_all_pages_in_database()
+    {
+        $response = $this->json('GET', '/api/pages');
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [[
+                'action_id', 'description', 'fear_before', 'fear_during', 'satisfaction'
+            ]]
+        ]);
+        $response->assertJsonCount(Page::all()->count(), 'data');
+    }
+
     public function test_store_creates_a_page_row_in_pages_table()
     {
         $this->refreshDatabase();
@@ -113,7 +125,7 @@ class PageControllerTest extends TestCase
     {
         $data = array_merge([
             'action_id'    => $this->page->action_id,
-            'text'         => $this->page->description,
+            'description'         => $this->page->description,
             'fear_before'  => $this->page->fear_before,
             'fear_during'  => $this->page->fear_during,
             'satisfaction' => $this->page->satisfaction

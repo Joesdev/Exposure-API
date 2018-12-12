@@ -18,24 +18,25 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //Hierarchy
-Route::get('/hierarchies', 'HierarchyController@index')->name('hierarchy.index');
-Route::post('/hierarchy', 'HierarchyController@store')->name('hierarchy.store');
-Route::get('/hierarchy/{hierarchy}', 'HierarchyController@show')->name('hierarchy.show');
-Route::patch('/hierarchy/{hierarchy}', 'HierarchyController@update')->name('hierarchy.update');
-Route::delete('/hierarchy/{hierarchy}', 'HierarchyController@destroy')->name('hierarchy.destroy');
-Route::get('/hierarchy/{hierarchy}/actions', 'HierarchyController@actions')->name('hierarchy.actions');
+Route::get('/hierarchies', 'HierarchyController@index');
+Route::post('/hierarchy', 'HierarchyController@store');
+Route::get('/hierarchy/{hierarchy}', 'HierarchyController@show');
+Route::patch('/hierarchy/{hierarchy}', 'HierarchyController@update');
+Route::delete('/hierarchy/{hierarchy}', 'HierarchyController@destroy');
+Route::get('/hierarchy/{hierarchy}/actions', 'HierarchyController@actions');
 
 //Action
-Route::get('/actions', 'ActionController@index')->name('action.index');
-Route::post('/action', 'ActionController@store')->name('action.store');// Refactor to /action?hierarchy_id={id}
-Route::get('/action/{action}', 'ActionController@show')->name('action.show');
-Route::patch('/action/{action}', 'ActionController@update')->name('action.update');
-Route::delete('/action/{action}', 'ActionController@destroy')->name('action.destroy');
+Route::get('/actions', 'ActionController@index');
+Route::post('/action', 'ActionController@store');// Refactor to /action?hierarchy_id={id}
+Route::get('/action/{action}', 'ActionController@show');
+Route::patch('/action/{action}', 'ActionController@update');
+Route::delete('/action/{action}', 'ActionController@destroy');
 
 //Page
-Route::post('/page', 'PageController@store')->name('page.show');
-Route::get('/page/{page}', 'PageController@show')->name('page.show');
-Route::patch('/page/{page}', 'PageController@update')->name('page.update');
-Route::delete('/page/{page}', 'PageController@destroy')->name('page.destroy');
+Route::get('/pages', 'PageController@index');
+Route::post('/page', 'PageController@store');
+Route::get('/page/{page}', 'PageController@show');
+Route::patch('/page/{page}', 'PageController@update');
+Route::delete('/page/{page}', 'PageController@destroy');
 
 

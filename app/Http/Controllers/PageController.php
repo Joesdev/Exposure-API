@@ -6,11 +6,15 @@ use App\Http\Requests\PageStoreRequest;
 use App\Http\Requests\PageUpdateRequest;
 use App\Http\Resources\Page as PageResource;
 
-use Illuminate\Http\Request;
 use App\Page;
 
 class PageController extends Controller
 {
+    public function index()
+    {
+        return PageResource::collection(Page::all());
+    }
+
     public function store(PageStoreRequest $request)
     {
         if(request()->has('actionId')){
