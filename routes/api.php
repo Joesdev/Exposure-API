@@ -27,10 +27,11 @@ Route::get('/hierarchy/{hierarchy}/actions', 'HierarchyController@actions');
 
 //Action
 Route::get('/actions', 'ActionController@index');
-Route::post('/action', 'ActionController@store');// Refactor to /action?hierarchy_id={id}
+Route::post('/action', 'ActionController@store');
 Route::get('/action/{action}', 'ActionController@show');
 Route::patch('/action/{action}', 'ActionController@update');
 Route::delete('/action/{action}', 'ActionController@destroy');
+Route::get('/action/{action}/pages', 'ActionController@pages');
 
 //Page
 Route::get('/pages', 'PageController@index');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ActionStoreRequest;
 use App\Http\Requests\ActionUpdateRequest;
 use App\Http\Resources\Action as ActionResource;
+use App\Http\Resources\Page as PageResource;
 
 use App\Action;
 use App\Hierarchy;
@@ -43,5 +44,11 @@ class ActionController extends Controller
         if($action->delete()) {
             return new ActionResource($action);
         }
+    }
+
+    public function pages(Action $action)
+    {
+        $pages = $action->pages()->get();
+        return PageResource::collection($pages);
     }
 }

@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Action;
 use App\Hierarchy;
+use App\Page;
 use Tests\TestCase;
 use App\User;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -121,6 +122,21 @@ class ActionControllerTest extends TestCase
         $response = $this->json('DELETE', "/api/action/$action->id");
         $response->assertStatus(200);
         $this->assertDatabaseMissing('actions', [ 'id' => $action->id ]);
+    }
+
+    public function test_pages_returns_collection_of_pages_related_to_an_action_id()
+    {
+        $action = factory(Action::class)->create(['hierarchy_id' => $this->hierarchy->first()->id]);
+        $pages = factory(Page::class,7)->create(['action_id' => $action->id]);
+
+        $response = $this->json('GET', '/api/action/'. $action->id. '/pages');
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [[
+                'action_id', 'description', 'fear_before', 'fear_during', 'satisfaction'
+            ]]
+        ]);
+        $response->assertJsonCount(count($pages), 'data');
     }
 
     public function assertValidationErrorsForFieldWithStatus($response, $key, $status)
